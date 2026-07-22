@@ -35,7 +35,7 @@ public class AuthService {
             throw new DomainException(ErrorCode.INVALID_CREDENTIALS, "Invalid credentials");
         }
 
-        String token = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole().name());
+        String token = jwtService.generateToken(user.getId(), user.getName(), user.getEmail(), user.getRole().name());
 
         return UserMapper.toResponse(token, "Bearer");
     }
