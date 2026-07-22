@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: church-flow-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/church-flow
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+jwt:
+  secret: 8fK3mP9xQ2vL7sN4aR6tY1uW5zC0dE9h
+  expiration: 3600000
+
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %-5level [%thread] %logger{36} traceId=%X{traceId} - %msg%n"
