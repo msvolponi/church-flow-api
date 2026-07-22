@@ -24,8 +24,8 @@ public class ProblemFactory {
         problem.setDetail(message);
         problem.setProperty("type", code.name());
 
-        // extensions (custom fields)        
-        problem.setProperty("timestamp", Instant.now().toEpochMilli());
+        // extensions (custom fields)
+        problem.setProperty("timestamp", Instant.now());
 
         String traceId = MDC.get("traceId");
         if (traceId != null) {

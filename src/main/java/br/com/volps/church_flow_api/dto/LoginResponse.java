@@ -1,8 +1,6 @@
 package br.com.volps.church_flow_api.dto;
 
-import org.springframework.hateoas.RepresentationModel;
-
-public class LoginResponse extends RepresentationModel<LoginResponse> {
+public class LoginResponse {
         private String token;
         private String type;
 

@@ -2,9 +2,7 @@ package br.com.volps.church_flow_api.dto;
 
 import java.util.UUID;
 
-import org.springframework.hateoas.RepresentationModel;
-
-public class CreateUserResponse extends RepresentationModel<CreateUserResponse> {
+public class CreateUserResponse {
 
         private UUID id;
         private String email;
