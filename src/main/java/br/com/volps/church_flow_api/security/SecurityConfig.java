@@ -20,10 +20,12 @@ public class SecurityConfig {
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authorizeHttpRequests(auth -> auth
-                                                .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
+                                                .requestMatchers(HttpMethod.POST, "/users")
+                                                .hasAnyRole("ADMIN", "MANAGER")
                                                 .requestMatchers("/auth/login", "/auth/refresh").permitAll()
                                                 .anyRequest().authenticated())
-                                .oauth2ResourceServer(oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
+                                .oauth2ResourceServer(oauth -> oauth.jwt(
+                                                jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
                 return http.build();
         }
 
