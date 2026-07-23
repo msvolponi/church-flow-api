@@ -1,19 +1,17 @@
 package br.com.volps.church_flow_api.dto;
 
-import java.util.UUID;
-
 public class CreateUserResponse {
 
-        private UUID id;
+        private Long id;
         private String email;
         private String role;
         private String name;
 
-        public UUID getId() {
+        public Long getId() {
                 return id;
         }
 
-        public void setId(UUID id) {
+        public void setId(Long id) {
                 this.id = id;
         }
 

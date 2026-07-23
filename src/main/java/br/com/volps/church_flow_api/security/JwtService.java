@@ -2,7 +2,6 @@ package br.com.volps.church_flow_api.security;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.UUID;
 
 import javax.crypto.SecretKey;
 
@@ -34,11 +33,11 @@ public class JwtService {
         this.refreshExpiration = refreshExpiration;
     }
 
-    public String generateAccessToken(UUID userId, String name, String email, String role) {
+    public String generateAccessToken(Long userId, String name, String email, String role) {
         return generateToken(userId, name, email, role, accessExpiration, "access");
     }
 
-    public String generateRefreshToken(UUID userId, String name, String email, String role) {
+    public String generateRefreshToken(Long userId, String name, String email, String role) {
         return generateToken(userId, name, email, role, refreshExpiration, "refresh");
     }
 
@@ -50,7 +49,8 @@ public class JwtService {
         return validateToken(token, "refresh");
     }
 
-    private String generateToken(UUID userId, String name, String email, String role, long expiration, String tokenType) {
+    private String generateToken(Long userId, String name, String email, String role, long expiration,
+            String tokenType) {
         Date issuedAt = new Date();
         return Jwts.builder()
                 .subject(userId.toString())

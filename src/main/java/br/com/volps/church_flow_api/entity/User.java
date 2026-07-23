@@ -1,7 +1,6 @@
 package br.com.volps.church_flow_api.entity;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import br.com.volps.church_flow_api.enums.Role;
 import jakarta.persistence.Column;
@@ -21,7 +20,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -36,11 +35,11 @@ public class User implements Serializable {
     @Column(nullable = false)
     private Role role;
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
