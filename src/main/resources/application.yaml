@@ -22,6 +22,7 @@ spring:
 jwt:
   secret: 8fK3mP9xQ2vL7sN4aR6tY1uW5zC0dE9h
   expiration: 3600000
+  refresh-expiration: 86400000
 
 logging:
   pattern:

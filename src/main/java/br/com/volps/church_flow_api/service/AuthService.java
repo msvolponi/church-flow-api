@@ -11,6 +11,7 @@ import br.com.volps.church_flow_api.exception.ErrorCode;
 import br.com.volps.church_flow_api.mapper.UserMapper;
 import br.com.volps.church_flow_api.repository.UserRepository;
 import br.com.volps.church_flow_api.security.JwtService;
+import io.jsonwebtoken.Claims;
 
 @Service
 public class AuthService {
@@ -35,8 +36,22 @@ public class AuthService {
             throw new DomainException(ErrorCode.INVALID_CREDENTIALS, "Invalid credentials");
         }
 
-        String token = jwtService.generateToken(user.getId(), user.getName(), user.getEmail(), user.getRole().name());
+        String accessToken = jwtService.generateAccessToken(user.getId(), user.getName(), user.getEmail(), user.getRole().name());
+        String refreshToken = jwtService.generateRefreshToken(user.getId(), user.getName(), user.getEmail(), user.getRole().name());
 
-        return UserMapper.toResponse(token, "Bearer");
+        return UserMapper.toResponse(accessToken, "Bearer", refreshToken);
+    }
+
+    public LoginResponse refreshToken(String refreshToken) {
+        Claims claims = jwtService.validateRefreshToken(refreshToken);
+
+        User user = repository.findByEmail(claims.get("email", String.class))
+                .orElseThrow(() -> new DomainException(ErrorCode.NOT_FOUND,
+                        "User not found with email: " + claims.get("email", String.class)));
+
+        String accessToken = jwtService.generateAccessToken(user.getId(), user.getName(), user.getEmail(), user.getRole().name());
+        String newRefreshToken = jwtService.generateRefreshToken(user.getId(), user.getName(), user.getEmail(), user.getRole().name());
+
+        return UserMapper.toResponse(accessToken, "Bearer", newRefreshToken);
     }
 }

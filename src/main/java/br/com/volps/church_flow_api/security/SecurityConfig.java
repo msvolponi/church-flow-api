@@ -21,7 +21,7 @@ public class SecurityConfig {
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
-                                                .requestMatchers("/auth/login").permitAll()
+                                                .requestMatchers("/auth/login", "/auth/refresh").permitAll()
                                                 .anyRequest().authenticated())
                                 .oauth2ResourceServer(oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
                 return http.build();

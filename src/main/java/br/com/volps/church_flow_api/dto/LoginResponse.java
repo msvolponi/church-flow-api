@@ -3,6 +3,7 @@ package br.com.volps.church_flow_api.dto;
 public class LoginResponse {
         private String token;
         private String type;
+        private String refreshToken;
 
         public String getToken() {
                 return token;
@@ -18,5 +19,13 @@ public class LoginResponse {
 
         public void setType(String type) {
                 this.type = type;
+        }
+
+        public String getRefreshToken() {
+                return refreshToken;
+        }
+
+        public void setRefreshToken(String refreshToken) {
+                this.refreshToken = refreshToken;
         }
 }
