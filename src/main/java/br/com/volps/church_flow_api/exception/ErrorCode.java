@@ -10,7 +10,8 @@ public enum ErrorCode {
     ALREADY_USED(HttpStatus.CONFLICT, "Resource is already in use"),
     INVALID_CREDENTIALS(HttpStatus.UNAUTHORIZED, "Invalid credentials"),
     INVALID_VALUE(HttpStatus.BAD_REQUEST, "Invalid value specified"),
-    INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "An internal server error occurred");
+    INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "An internal server error occurred"),
+    FORBIDDEN(HttpStatus.FORBIDDEN, "Access forbidden");
 
     private final HttpStatus status;
     private final String description;

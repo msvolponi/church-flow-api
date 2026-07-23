@@ -2,6 +2,8 @@ package br.com.volps.church_flow_api.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import br.com.volps.church_flow_api.dto.ApiResponse;
 import br.com.volps.church_flow_api.dto.CreateUserRequest;
 import br.com.volps.church_flow_api.dto.CreateUserResponse;
 import br.com.volps.church_flow_api.entity.User;
+import br.com.volps.church_flow_api.enums.Role;
 import br.com.volps.church_flow_api.mapper.CreateUserMapper;
 import br.com.volps.church_flow_api.service.UserService;
 import jakarta.validation.Valid;
@@ -26,8 +29,10 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<ApiResponse<CreateUserResponse>> register(@RequestBody @Valid CreateUserRequest request) {
-        User createdUser = userService.create(request);
+    public ResponseEntity<ApiResponse<CreateUserResponse>> register(@AuthenticationPrincipal Jwt jwt,
+            @RequestBody @Valid CreateUserRequest request) {
+        Role role = Role.valueOf(jwt.getClaimAsString("role"));
+        User createdUser = userService.create(request, role);
         CreateUserResponse response = CreateUserMapper.toResponse(createdUser);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.of(response));

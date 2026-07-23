@@ -21,7 +21,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User create(CreateUserRequest request) {
+    public User create(CreateUserRequest request, Role currentRole) {
         repository.findByEmail(request.email()).ifPresent(existing -> {
             throw new DomainException(ErrorCode.ALREADY_USED, "Email already in use: " +
                     existing.getEmail());
@@ -32,6 +32,10 @@ public class UserService {
             role = Role.valueOf(request.role());
         } catch (IllegalArgumentException e) {
             throw new DomainException(ErrorCode.INVALID_VALUE, "Invalid role: " + request.role());
+        }
+
+        if (currentRole.equals(Role.MANAGER) && role.equals(Role.ADMIN)) {
+            throw new DomainException(ErrorCode.FORBIDDEN, "Managers cannot create Admin users");
         }
 
         User user = new User();
