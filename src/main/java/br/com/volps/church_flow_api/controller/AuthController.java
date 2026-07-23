@@ -1,8 +1,6 @@
 package br.com.volps.church_flow_api.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +25,5 @@ public class AuthController {
         LoginResponse response = authService.login(request);
         // response.add(linkTo(methodOn(UserController.class).findById(id)).withSelfRel());
         return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/me")
-    public Object me(Authentication authentication) {
-        return authentication;
     }
 }
