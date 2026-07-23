@@ -1,9 +1,15 @@
 package br.com.volps.church_flow_api.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,9 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.volps.church_flow_api.dto.ApiResponse;
 import br.com.volps.church_flow_api.dto.CreateUserRequest;
 import br.com.volps.church_flow_api.dto.CreateUserResponse;
+import br.com.volps.church_flow_api.dto.UserResponse;
 import br.com.volps.church_flow_api.entity.User;
 import br.com.volps.church_flow_api.enums.Role;
 import br.com.volps.church_flow_api.mapper.CreateUserMapper;
+import br.com.volps.church_flow_api.mapper.UserMapper;
 import br.com.volps.church_flow_api.service.UserService;
 import jakarta.validation.Valid;
 
@@ -36,5 +44,20 @@ public class UserController {
         CreateUserResponse response = CreateUserMapper.toResponse(createdUser);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.of(response));
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<UserResponse>>> list() {
+        List<UserResponse> users = userService.list().stream()
+                .map(UserMapper::toResponse)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(users));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
+        userService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ApiResponse.of(null));
     }
 }

@@ -1,5 +1,7 @@
 package br.com.volps.church_flow_api.service;
 
+import java.util.List;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +47,16 @@ public class UserService {
         user.setPasswordHash(passwordEncoder.encode(request.password()));
 
         return repository.save(user);
+    }
+
+    public List<User> list() {
+        return repository.findAll();
+    }
+
+    public void delete(Long id) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new DomainException(ErrorCode.NOT_FOUND, "User not found with id: " + id));
+                
+        repository.delete(user);
     }
 }

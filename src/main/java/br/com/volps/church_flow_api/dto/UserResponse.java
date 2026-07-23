@@ -1,17 +1,18 @@
 package br.com.volps.church_flow_api.dto;
 
-import org.hibernate.validator.constraints.UUID;
+import br.com.volps.church_flow_api.enums.Role;
 
 public class UserResponse {
-    private UUID id;
+    private Long id;
     private String name;
     private String email;
+    private Role role;
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -29,6 +30,14 @@ public class UserResponse {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
 }
