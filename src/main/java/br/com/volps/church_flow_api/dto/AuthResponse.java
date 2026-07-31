@@ -1,6 +1,6 @@
 package br.com.volps.church_flow_api.dto;
 
-public class LoginResponse {
+public class AuthResponse {
         private String token;
         private String type;
         private String refreshToken;

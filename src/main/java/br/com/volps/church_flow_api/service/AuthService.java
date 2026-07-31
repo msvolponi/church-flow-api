@@ -3,12 +3,12 @@ package br.com.volps.church_flow_api.service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.com.volps.church_flow_api.dto.LoginRequest;
-import br.com.volps.church_flow_api.dto.LoginResponse;
+import br.com.volps.church_flow_api.dto.AuthRequest;
+import br.com.volps.church_flow_api.dto.AuthResponse;
 import br.com.volps.church_flow_api.entity.User;
 import br.com.volps.church_flow_api.exception.DomainException;
 import br.com.volps.church_flow_api.exception.ErrorCode;
-import br.com.volps.church_flow_api.mapper.UserMapper;
+import br.com.volps.church_flow_api.mapper.AuthMapper;
 import br.com.volps.church_flow_api.repository.UserRepository;
 import br.com.volps.church_flow_api.security.JwtService;
 import io.jsonwebtoken.Claims;
@@ -26,7 +26,7 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public LoginResponse login(LoginRequest request) {
+    public AuthResponse login(AuthRequest request) {
 
         User user = repository.findByEmail(request.email())
                 .orElseThrow(() -> new DomainException(ErrorCode.NOT_FOUND,
@@ -39,10 +39,10 @@ public class AuthService {
         String accessToken = jwtService.generateAccessToken(user.getId(), user.getName(), user.getEmail(), user.getRole().name());
         String refreshToken = jwtService.generateRefreshToken(user.getId(), user.getName(), user.getEmail(), user.getRole().name());
 
-        return UserMapper.toResponse(accessToken, "Bearer", refreshToken);
+        return AuthMapper.toResponse(accessToken, "Bearer", refreshToken);
     }
 
-    public LoginResponse refreshToken(String refreshToken) {
+    public AuthResponse refreshToken(String refreshToken) {
         Claims claims = jwtService.validateRefreshToken(refreshToken);
 
         User user = repository.findByEmail(claims.get("email", String.class))
@@ -52,6 +52,6 @@ public class AuthService {
         String accessToken = jwtService.generateAccessToken(user.getId(), user.getName(), user.getEmail(), user.getRole().name());
         String newRefreshToken = jwtService.generateRefreshToken(user.getId(), user.getName(), user.getEmail(), user.getRole().name());
 
-        return UserMapper.toResponse(accessToken, "Bearer", newRefreshToken);
+        return AuthMapper.toResponse(accessToken, "Bearer", newRefreshToken);
     }
 }
