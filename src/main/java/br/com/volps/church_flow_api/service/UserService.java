@@ -73,8 +73,17 @@ public class UserService {
         return repository.save(user);
     }
 
-    public List<User> list() {
-        return repository.findAll();
+    public List<User> list(Role currentRole) {
+        switch (currentRole) {
+            case ADMIN:
+                return repository.findAll();
+            case MANAGER:
+                return repository.findByRoleNot(Role.ADMIN);
+            case OPERATOR:
+                throw new DomainException(ErrorCode.FORBIDDEN, "Operators cannot list users");
+        }
+
+        return null;
     }
 
     public void delete(Long id, Role currentRole) {

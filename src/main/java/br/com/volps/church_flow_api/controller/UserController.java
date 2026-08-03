@@ -57,8 +57,9 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<UserResponse>>> list() {
-        List<UserResponse> users = userService.list().stream()
+    public ResponseEntity<ApiResponse<List<UserResponse>>> list(@AuthenticationPrincipal Jwt jwt) {
+        Role role = Role.valueOf(jwt.getClaimAsString("role"));
+        List<UserResponse> users = userService.list(role).stream()
                 .map(UserMapper::toResponse)
                 .collect(Collectors.toList());
 
