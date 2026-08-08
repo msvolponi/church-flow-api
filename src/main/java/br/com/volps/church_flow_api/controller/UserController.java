@@ -50,10 +50,9 @@ public class UserController {
     public ResponseEntity<ApiResponse<UserResponse>> update(@AuthenticationPrincipal Jwt jwt,
             @RequestBody @Valid UpdateUserRequest request) {
         Role role = Role.valueOf(jwt.getClaimAsString("role"));
-        User updatedUser = userService.update(request, role);
-        UserResponse response = UserMapper.toResponse(updatedUser);
+        userService.update(request, role);
 
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(response));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ApiResponse.of(null));
     }
 
     @GetMapping

@@ -20,8 +20,7 @@ public class SecurityConfig {
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authorizeHttpRequests(auth -> auth
-                                                .requestMatchers(HttpMethod.POST, "/users")
-                                                .hasAnyRole("ADMIN", "MANAGER")
+                                                .requestMatchers(HttpMethod.POST, "/users").hasAnyRole("ADMIN", "MANAGER")
                                                 .requestMatchers("/auth/login", "/auth/refresh").permitAll()
                                                 .anyRequest().authenticated())
                                 .oauth2ResourceServer(oauth -> oauth.jwt(
