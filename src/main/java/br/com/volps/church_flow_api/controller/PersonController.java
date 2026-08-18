@@ -34,7 +34,7 @@ public class PersonController {
 
     @PostMapping()
     public ResponseEntity<ApiResponse<PersonResponse>> register(@RequestBody @Valid PersonRequest request) {
-        Person person = PersonMapper.toEntity(request);
+        Person person = PersonMapper.toEntity(null, request);
         Person createdPerson = personService.create(person);
         PersonResponse response = PersonMapper.toResponse(createdPerson);
 
@@ -44,10 +44,11 @@ public class PersonController {
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<PersonResponse>> update(@RequestBody @Valid PersonRequest request,
             @PathVariable Long id) {
-        Person person = PersonMapper.toEntity(request);
-        personService.update(id, person);
+        Person person = PersonMapper.toEntity(id, request);
+        Person updatedPerson = personService.update(id, person);
+        PersonResponse response = PersonMapper.toResponse(updatedPerson);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ApiResponse.of(null));
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.of(response));
     }
 
     @GetMapping

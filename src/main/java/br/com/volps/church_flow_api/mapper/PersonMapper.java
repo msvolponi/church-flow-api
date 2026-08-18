@@ -30,8 +30,9 @@ public class PersonMapper {
         return response;
     }
 
-    public static Person toEntity(PersonRequest request) {
+    public static Person toEntity(Long id, PersonRequest request) {
         var person = new Person();
+        person.setId(id);
         person.setFullName(request.fullName());
         person.setMemberType(request.memberType());
         person.setGender(request.gender());
@@ -55,6 +56,7 @@ public class PersonMapper {
     }
 
     public static void update(Person target, Person source) {
+        target.setId(source.getId());
         target.setFullName(source.getFullName());
         target.setMemberType(source.getMemberType());
         target.setGender(source.getGender());

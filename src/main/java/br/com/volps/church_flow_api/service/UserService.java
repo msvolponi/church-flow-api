@@ -27,9 +27,7 @@ public class UserService {
     public User create(CreateUserRequest request, Role currentRole) {
         validateManagementPermission(currentRole);
 
-        Role role = parseRole(request.role());
-
-        if (role == Role.ADMIN && currentRole != Role.ADMIN) {
+        if (request.role() == Role.ADMIN && currentRole != Role.ADMIN) {
             throw new DomainException(ErrorCode.FORBIDDEN, "Only Admins can create Admin users");
         }
 
@@ -38,7 +36,7 @@ public class UserService {
         User user = new User();
         user.setEmail(request.email());
         user.setName(request.name());
-        user.setRole(role);
+        user.setRole(request.role());
         user.setPasswordHash(passwordEncoder.encode(request.password()));
 
         return repository.save(user);
@@ -50,13 +48,11 @@ public class UserService {
         User user = repository.findById(request.id())
                 .orElseThrow(() -> new DomainException(ErrorCode.NOT_FOUND, "User not found with id: " + request.id()));
 
-        Role newRole = parseRole(request.role());
-
         if (user.getRole() == Role.ADMIN && currentRole != Role.ADMIN) {
             throw new DomainException(ErrorCode.FORBIDDEN, "Only Admins can update Admin users");
         }
 
-        if (newRole == Role.ADMIN && currentRole != Role.ADMIN) {
+        if (request.role() == Role.ADMIN && currentRole != Role.ADMIN) {
             throw new DomainException(ErrorCode.FORBIDDEN, "Only Admins can assign Admin role");
         }
 
@@ -68,7 +64,7 @@ public class UserService {
 
         user.setEmail(request.email());
         user.setName(request.name());
-        user.setRole(newRole);
+        user.setRole(request.role());
 
         return repository.save(user);
     }
@@ -102,14 +98,6 @@ public class UserService {
     private void validateManagementPermission(Role currentRole) {
         if (currentRole != Role.ADMIN && currentRole != Role.MANAGER) {
             throw new DomainException(ErrorCode.FORBIDDEN, "Only Admins and Managers can manage users");
-        }
-    }
-
-    private Role parseRole(String role) {
-        try {
-            return Role.valueOf(role);
-        } catch (IllegalArgumentException e) {
-            throw new DomainException(ErrorCode.INVALID_VALUE, "Invalid role: " + role);
         }
     }
 
