@@ -13,6 +13,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -41,6 +43,10 @@ public class Person {
     @Enumerated(EnumType.STRING)
     private MaritalStatus maritalStatus;
 
+    @OneToOne
+    @JoinColumn(name = "spouse_id")
+    private Person spouse;
+
     private String cellphone;
 
     private String phone;
@@ -65,6 +71,8 @@ public class Person {
     private LocalDate memberSince;
 
     private Boolean baptizedInWater;
+
+    private LocalDate baptismDate;
 
     private String profession;
 
@@ -233,6 +241,22 @@ public class Person {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public LocalDate getBaptismDate() {
+        return baptismDate;
+    }
+
+    public void setBaptismDate(LocalDate baptismDate) {
+        this.baptismDate = baptismDate;
+    }
+
+    public Person getSpouse() {
+        return spouse;
+    }
+
+    public void setSpouse(Person spouse) {
+        this.spouse = spouse;
     }
 
 }

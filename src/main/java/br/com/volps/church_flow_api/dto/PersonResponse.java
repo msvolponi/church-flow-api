@@ -21,6 +21,8 @@ public class PersonResponse {
 
     private MaritalStatus maritalStatus;
 
+    private Long spouseId;
+
     private String cellphone;
 
     private String phone;
@@ -44,6 +46,8 @@ public class PersonResponse {
     private LocalDate memberSince;
 
     private Boolean baptizedInWater;
+
+    private LocalDate baptismDate;
 
     private String profession;
 
@@ -197,6 +201,22 @@ public class PersonResponse {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public Long getSpouseId() {
+        return spouseId;
+    }
+
+    public void setSpouseId(Long spouseId) {
+        this.spouseId = spouseId;
+    }
+
+    public LocalDate getBaptismDate() {
+        return baptismDate;
+    }
+
+    public void setBaptismDate(LocalDate baptismDate) {
+        this.baptismDate = baptismDate;
     }
 
 }

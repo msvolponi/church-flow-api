@@ -23,6 +23,8 @@ public record PersonRequest(
 
                 MaritalStatus maritalStatus,
 
+                Long spouseId,
+
                 @Size(max = 20) String cellphone,
 
                 @Size(max = 20) String phone,
@@ -46,6 +48,8 @@ public record PersonRequest(
                 LocalDate memberSince,
 
                 Boolean baptizedInWater,
+
+                LocalDate baptismDate,
 
                 @Size(max = 255) String profession,
 

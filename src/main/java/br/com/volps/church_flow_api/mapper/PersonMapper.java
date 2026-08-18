@@ -14,6 +14,7 @@ public class PersonMapper {
         response.setGender(person.getGender());
         response.setBirthDate(person.getBirthDate());
         response.setMaritalStatus(person.getMaritalStatus());
+        response.setSpouseId(person.getSpouse() != null ? person.getSpouse().getId() : null);
         response.setCellphone(person.getCellphone());
         response.setPhone(person.getPhone());
         response.setEmail(person.getEmail());
@@ -26,6 +27,7 @@ public class PersonMapper {
         response.setState(person.getState());
         response.setMemberSince(person.getMemberSince());
         response.setBaptizedInWater(person.getBaptizedInWater());
+        response.setBaptismDate(person.getBaptismDate());
         response.setProfession(person.getProfession());
         return response;
     }
@@ -38,6 +40,14 @@ public class PersonMapper {
         person.setGender(request.gender());
         person.setBirthDate(request.birthDate());
         person.setMaritalStatus(request.maritalStatus());
+
+        Person spouse = null;
+        if (request.spouseId() != null) {
+            spouse = new Person();
+            spouse.setId(request.spouseId());
+        }
+        person.setSpouse(spouse);
+
         person.setCellphone(request.cellphone());
         person.setPhone(request.phone());
         person.setEmail(request.email());
@@ -50,6 +60,7 @@ public class PersonMapper {
         person.setState(request.state());
         person.setMemberSince(request.memberSince());
         person.setBaptizedInWater(request.baptizedInWater());
+        person.setBaptismDate(request.baptismDate());
         person.setProfession(request.profession());
         person.setObservations(request.observations());
         return person;
@@ -62,6 +73,7 @@ public class PersonMapper {
         target.setGender(source.getGender());
         target.setBirthDate(source.getBirthDate());
         target.setMaritalStatus(source.getMaritalStatus());
+        target.setSpouse(source.getSpouse());
         target.setCellphone(source.getCellphone());
         target.setPhone(source.getPhone());
         target.setEmail(source.getEmail());
@@ -74,6 +86,7 @@ public class PersonMapper {
         target.setState(source.getState());
         target.setMemberSince(source.getMemberSince());
         target.setBaptizedInWater(source.getBaptizedInWater());
+        target.setBaptismDate(source.getBaptismDate());
         target.setProfession(source.getProfession());
         target.setObservations(source.getObservations());
     }
