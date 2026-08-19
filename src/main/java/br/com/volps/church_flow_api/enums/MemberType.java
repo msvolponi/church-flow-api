@@ -3,7 +3,8 @@ package br.com.volps.church_flow_api.enums;
 public enum MemberType {
 
     VISITOR("Visitante"),
-    MEMBER("Membro");
+    MEMBER("Membro"),
+    PASTOR("Pastor");
 
     private final String label;
 
